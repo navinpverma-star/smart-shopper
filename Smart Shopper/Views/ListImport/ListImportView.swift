@@ -58,7 +58,9 @@ struct ListImportView: View {
                 }
             }
             .navigationTitle("SmartCart")
+#if canImport(UIKit)
             .navigationBarTitleDisplayMode(.large)
+#endif
             .toolbar { navToolbar }
 #if canImport(UIKit)
             // Camera sheet
@@ -147,7 +149,11 @@ struct ListImportView: View {
             }
         }
         .padding(.vertical, 8)
+#if canImport(UIKit)
         .background(Color(.systemBackground))
+#else
+        .background(Color(nsColor: .controlBackgroundColor))
+#endif
     }
 
     // MARK: - Empty state
@@ -210,7 +216,11 @@ struct ListImportView: View {
             .controlSize(.large)
             .padding(.horizontal)
             .padding(.vertical, 12)
+#if canImport(UIKit)
             .background(Color(.systemBackground))
+#else
+            .background(Color(nsColor: .controlBackgroundColor))
+#endif
         }
     }
 
@@ -227,11 +237,19 @@ struct ListImportView: View {
         }
 
         if !viewModel.importedItems.isEmpty {
+#if canImport(UIKit)
             ToolbarItem(placement: .topBarLeading) {
                 Button("Clear", role: .destructive) {
                     withAnimation { viewModel.clearAll() }
                 }
             }
+#else
+            ToolbarItem(placement: .navigation) {
+                Button("Clear", role: .destructive) {
+                    withAnimation { viewModel.clearAll() }
+                }
+            }
+#endif
         }
     }
 
@@ -248,7 +266,9 @@ struct ListImportView: View {
                 }
             }
             .navigationTitle("Add Item")
+#if canImport(UIKit)
             .navigationBarTitleDisplayMode(.inline)
+#endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
