@@ -16,6 +16,7 @@
 //  picks via UIDocumentPickerViewController in the VM layer).
 //
 
+import Foundation
 #if canImport(UIKit)
 import UIKit
 #endif

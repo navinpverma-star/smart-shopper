@@ -12,6 +12,7 @@
 //  Requires: NSCameraUsageDescription + NSPhotoLibraryUsageDescription in Info.plist.
 //
 
+import Foundation
 import Vision
 #if canImport(UIKit)
 import UIKit
