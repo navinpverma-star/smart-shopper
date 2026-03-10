@@ -14,6 +14,9 @@
 
 import SwiftUI
 import PhotosUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct ListImportView: View {
 
@@ -21,7 +24,9 @@ struct ListImportView: View {
 
     // Camera
     @State private var showingCamera     = false
+#if canImport(UIKit)
     @State private var cameraImage: UIImage?
+#endif
 
     // Photo library
     @State private var photoPickerItem: PhotosPickerItem?
@@ -55,11 +60,13 @@ struct ListImportView: View {
             .navigationTitle("SmartCart")
             .navigationBarTitleDisplayMode(.large)
             .toolbar { navToolbar }
+#if canImport(UIKit)
             // Camera sheet
             .fullScreenCover(isPresented: $showingCamera) {
                 CameraView(capturedImage: $cameraImage)
                     .ignoresSafeArea()
             }
+#endif
             // Error alert
             .alert("Import Error", isPresented: $showingError) {
                 Button("OK") { viewModel.errorMessage = nil }
@@ -70,6 +77,7 @@ struct ListImportView: View {
             .sheet(isPresented: $showingAddItem) {
                 addItemSheet
             }
+#if canImport(UIKit)
             // Trigger OCR when camera returns image
             .onChange(of: cameraImage) { _, image in
                 guard let image else { return }
@@ -86,6 +94,7 @@ struct ListImportView: View {
                     photoPickerItem = nil
                 }
             }
+#endif
             // Show error alert whenever message is set
             .onChange(of: viewModel.errorMessage) { _, msg in
                 showingError = msg != nil

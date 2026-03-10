@@ -16,7 +16,9 @@
 //  picks via UIDocumentPickerViewController in the VM layer).
 //
 
+#if canImport(UIKit)
 import UIKit
+#endif
 
 actor NotesImportService {
 
@@ -28,10 +30,14 @@ actor NotesImportService {
     /// Reads from UIPasteboard and parses grocery items.
     /// Returns an empty array if the clipboard has no usable text.
     func importFromClipboard() -> [GroceryItem] {
+#if canImport(UIKit)
         guard let text = UIPasteboard.general.string, !text.isEmpty else {
             return []
         }
         return parse(text: text, source: .notes)
+#else
+        return []
+#endif
     }
 
     // MARK: - Plain-text import (document picker / share sheet)

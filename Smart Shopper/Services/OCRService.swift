@@ -13,7 +13,9 @@
 //
 
 import Vision
+#if canImport(UIKit)
 import UIKit
+#endif
 
 actor OCRService {
 
@@ -22,6 +24,7 @@ actor OCRService {
 
     // MARK: - Text Recognition
 
+#if canImport(UIKit)
     /// Runs VNRecognizeTextRequest on `image` and returns the recognised text lines.
     /// Throws on Vision errors; returns empty array if no text is found.
     func recognizeText(from image: UIImage) async throws -> [String] {
@@ -120,6 +123,7 @@ actor OCRService {
 
         return (text, 1.0, "")
     }
+#endif // canImport(UIKit)
 }
 
 // MARK: - OCRError

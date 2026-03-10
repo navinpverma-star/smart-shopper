@@ -11,6 +11,9 @@
 
 import SwiftUI
 import PhotosUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 @Observable
 @MainActor
@@ -30,6 +33,7 @@ final class ListImportViewModel {
 
     // MARK: - OCR import
 
+#if canImport(UIKit)
     /// Processes a UIImage captured from the camera or photo library.
     func importFromImage(_ image: UIImage) async {
         isLoadingOCR = true
@@ -72,6 +76,7 @@ final class ListImportViewModel {
             errorMessage = "Image processing failed: \(error.localizedDescription)"
         }
     }
+#endif // canImport(UIKit)
 
     // MARK: - Clipboard / Notes import
 

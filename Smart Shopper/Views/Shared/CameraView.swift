@@ -6,9 +6,12 @@
 //  Falls back gracefully with an alert on simulators (no camera hardware).
 //
 //  Requires NSCameraUsageDescription in Info.plist.
+//  iOS only — UIImagePickerController is not available on macOS.
 //
 
 import SwiftUI
+
+#if canImport(UIKit)
 import UIKit
 
 struct CameraView: UIViewControllerRepresentable {
@@ -75,10 +78,8 @@ struct CameraView: UIViewControllerRepresentable {
             alert?.dismiss(animated: true)
         })
 
-        // Wrap in a plain VC so the representable has something valid to return.
         let host = UIViewController()
         host.view.backgroundColor = .black
-        // Present the alert after the VC is in the hierarchy.
         DispatchQueue.main.async {
             host.present(alert, animated: true)
         }
@@ -89,7 +90,6 @@ struct CameraView: UIViewControllerRepresentable {
 // MARK: - Preview
 
 #Preview {
-    // Preview shows the wrapper; actual camera requires a real device.
     Color.black
         .ignoresSafeArea()
         .overlay {
@@ -97,3 +97,5 @@ struct CameraView: UIViewControllerRepresentable {
                 .foregroundStyle(.white)
         }
 }
+
+#endif // canImport(UIKit)
