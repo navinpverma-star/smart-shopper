@@ -86,7 +86,7 @@ final class ListImportViewModel {
         errorMessage   = nil
         defer { isLoadingNotes = false }
 
-        let newItems = await notesService.importFromClipboard()
+        let newItems = notesService.importFromClipboard()
         if newItems.isEmpty {
             errorMessage = "Clipboard is empty. Open Notes, select all, copy, then tap Paste List."
         } else {
@@ -99,7 +99,7 @@ final class ListImportViewModel {
         isLoadingNotes = true
         defer { isLoadingNotes = false }
 
-        let newItems = await notesService.importFromText(text)
+        let newItems = notesService.importFromText(text)
         mergeItems(newItems)
     }
 

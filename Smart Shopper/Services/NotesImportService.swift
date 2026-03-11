@@ -21,7 +21,7 @@ import Foundation
 import UIKit
 #endif
 
-actor NotesImportService {
+final class NotesImportService {
 
     static let shared = NotesImportService()
     private init() {}
@@ -30,7 +30,7 @@ actor NotesImportService {
 
     /// Reads from UIPasteboard and parses grocery items.
     /// Returns an empty array if the clipboard has no usable text.
-    nonisolated func importFromClipboard() -> [GroceryItem] {
+    func importFromClipboard() -> [GroceryItem] {
 #if canImport(UIKit)
         guard let text = UIPasteboard.general.string, !text.isEmpty else {
             return []
@@ -44,7 +44,7 @@ actor NotesImportService {
     // MARK: - Plain-text import (document picker / share sheet)
 
     /// Parses raw text from any source (share sheet, document picker, paste).
-    nonisolated func importFromText(_ text: String, source: GroceryItem.SourceType = .notes) -> [GroceryItem] {
+    func importFromText(_ text: String, source: GroceryItem.SourceType = .notes) -> [GroceryItem] {
         parse(text: text, source: source)
     }
 
@@ -52,13 +52,13 @@ actor NotesImportService {
 
     /// Splits `text` into lines and converts each non-empty line into a
     /// GroceryItem, stripping common list decorators along the way.
-    private nonisolated func parse(text: String, source: GroceryItem.SourceType) -> [GroceryItem] {
+    private func parse(text: String, source: GroceryItem.SourceType) -> [GroceryItem] {
         text
             .components(separatedBy: .newlines)
             .compactMap { parseLine($0, source: source) }
     }
 
-    private nonisolated func parseLine(_ raw: String, source: GroceryItem.SourceType) -> GroceryItem? {
+    private func parseLine(_ raw: String, source: GroceryItem.SourceType) -> GroceryItem? {
         var line = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !line.isEmpty else { return nil }
 
@@ -91,7 +91,7 @@ actor NotesImportService {
     // MARK: - Quantity extraction
 
     /// Detects patterns like "2 lbs butter" or "1/2 cup flour".
-    private nonisolated func extractQuantity(from text: String) -> (name: String, qty: Double, unit: String) {
+    private func extractQuantity(from text: String) -> (name: String, qty: Double, unit: String) {
         // Decimal/integer quantity followed by optional unit then item name
         let decimalPattern = /^(\d+(?:[.,]\d+)?)\s*([a-zA-Z]{2,5})?\s+(.+)/
 

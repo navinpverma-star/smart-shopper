@@ -38,6 +38,10 @@ struct ListImportView: View {
     // Error banner
     @State private var showingError    = false
 
+    // Store selection navigation
+    @State private var showStoreSelection  = false
+    @State private var activeGroceryList   = GroceryList()
+
     // MARK: - Body
 
     var body: some View {
@@ -100,6 +104,10 @@ struct ListImportView: View {
             // Show error alert whenever message is set
             .onChange(of: viewModel.errorMessage) { _, msg in
                 showingError = msg != nil
+            }
+            // Phase 2 navigation
+            .navigationDestination(isPresented: $showStoreSelection) {
+                StoreSelectionView(groceryList: activeGroceryList)
             }
         }
     }
@@ -202,7 +210,8 @@ struct ListImportView: View {
         VStack(spacing: 0) {
             Divider()
             Button {
-                // TODO: Push StoreSelectionView(list: viewModel.buildGroceryList())
+                activeGroceryList  = viewModel.buildGroceryList()
+                showStoreSelection = true
             } label: {
                 HStack {
                     Image(systemName: "storefront.fill")
