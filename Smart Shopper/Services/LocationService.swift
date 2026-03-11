@@ -41,9 +41,18 @@ final class LocationService: NSObject {
     func requestLocationIfNeeded() {
         switch manager.authorizationStatus {
         case .notDetermined:
-            manager.requestWhenInUseAuthorization()
-        case .authorizedWhenInUse, .authorizedAlways:
+            #if os(macOS)
+            // macOS doesn't require explicit authorization request
             manager.requestLocation()
+            #else
+            manager.requestWhenInUseAuthorization()
+            #endif
+        case .authorizedAlways:
+            manager.requestLocation()
+        #if !os(macOS)
+        case .authorizedWhenInUse:
+            manager.requestLocation()
+        #endif
         default:
             break
         }
@@ -78,10 +87,16 @@ extension LocationService: CLLocationManagerDelegate {
     nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         Task { @MainActor in
             self.authorizationStatus = manager.authorizationStatus
+            #if os(macOS)
+            if manager.authorizationStatus == .authorizedAlways {
+                manager.requestLocation()
+            }
+            #else
             if manager.authorizationStatus == .authorizedWhenInUse ||
                manager.authorizationStatus == .authorizedAlways {
                 manager.requestLocation()
             }
+            #endif
         }
     }
 }

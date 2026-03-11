@@ -39,7 +39,7 @@ actor InstacartService: ProductService {
         ]
         guard let url = components.url else { throw InstacartError.badURL }
 
-        let (data, response) = try await URLSession.shared.data(for: makeRequest(url: url))
+        let (data, response) = try await URLSession.shared.data(for: try makeRequest(url: url))
         try validate(response)
 
         let decoded = try JSONDecoder.instacart.decode(SearchResponse.self, from: data)
@@ -49,7 +49,7 @@ actor InstacartService: ProductService {
     func createCart(items: [(productId: String, quantity: Int)],
                     retailerId: String) async throws -> ProductCart {
         let url = baseURL.appendingPathComponent("/idp/v1/carts")
-        var request = makeRequest(url: url, method: "POST")
+        var request = try await makeRequest(url: url, method: "POST")
         let body = CartRequest(
             retailerKey: retailerId,
             items: items.map { CartRequest.Item(id: $0.productId, quantity: $0.quantity) }
@@ -65,14 +65,18 @@ actor InstacartService: ProductService {
 
     // MARK: - Helpers
 
-    private var accessToken: String? {
-        try? KeychainService.shared.read(key: KeychainService.TokenKey.instacartAccessToken)
-    }
-
-    private func makeRequest(url: URL, method: String = "GET") throws -> URLRequest {
-        guard let token = accessToken, !token.isEmpty else {
+    private func getAccessToken() async throws -> String {
+        let token = try await MainActor.run {
+            try KeychainService.shared.read(key: KeychainService.TokenKey.instacartAccessToken)
+        }
+        guard let token, !token.isEmpty else {
             throw InstacartError.missingToken
         }
+        return token
+    }
+
+    private func makeRequest(url: URL, method: String = "GET") async throws -> URLRequest {
+        let token = try await getAccessToken()
         var req = URLRequest(url: url)
         req.httpMethod = method
         req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

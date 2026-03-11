@@ -27,7 +27,11 @@ struct CheckoutView: View {
             itemsSection
             totalSection
         }
+#if canImport(UIKit)
         .listStyle(.insetGrouped)
+#else
+        .listStyle(.inset)
+#endif
         .navigationTitle("Review Order")
 #if canImport(UIKit)
         .navigationBarTitleDisplayMode(.inline)

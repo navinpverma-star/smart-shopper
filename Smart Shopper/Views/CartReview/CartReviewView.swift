@@ -225,7 +225,7 @@ private struct ProductPickerSheet: View {
                     ContentUnavailableView(
                         "No Products Found",
                         systemImage: "magnifyingglass",
-                        description: Text("No results for "\(item.name)". Try editing the item name.")
+                        description: Text("No results for \"\(item.name)\". Try editing the item name.")
                     )
                 } else {
                     List(results) { product in
@@ -243,7 +243,7 @@ private struct ProductPickerSheet: View {
                     .listStyle(.plain)
                 }
             }
-            .navigationTitle("Swap "\(item.name)"")
+            .navigationTitle("Swap \"\(item.name)\"")
 #if canImport(UIKit)
             .navigationBarTitleDisplayMode(.inline)
 #endif
