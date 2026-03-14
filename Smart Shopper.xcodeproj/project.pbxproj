@@ -394,6 +394,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "SmartCart uses the camera to scan handwritten grocery lists.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SmartCart uses your location to find nearby grocery stores.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SmartCart reads photos from your library to extract grocery items.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -436,6 +439,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "SmartCart uses the camera to scan handwritten grocery lists.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SmartCart uses your location to find nearby grocery stores.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SmartCart reads photos from your library to extract grocery items.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
