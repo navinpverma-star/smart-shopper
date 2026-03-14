@@ -106,6 +106,7 @@ extension KeychainService {
 // MARK: - Token keys (centralised to avoid magic strings)
 extension KeychainService {
     enum TokenKey {
+        static let walmartApiKey         = "walmart.api_key"
         static let instacartAccessToken  = "instacart.access_token"
         static let instacartRefreshToken = "instacart.refresh_token"
         static let googleAccessToken     = "google.access_token"

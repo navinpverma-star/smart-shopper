@@ -76,16 +76,21 @@ extension Store {
     }
 }
 
-// MARK: - Hard-coded MVP supported retailers
+// MARK: - Stores
 extension Store {
-    /// Placeholder retailers used before real location + Instacart discovery
-    /// is wired up in Phase 2.
+    /// Walmart — primary store for MVP.
+    static let walmart = Store(
+        name: "Walmart",
+        instacartRetailerId: "walmart"
+    )
+
+    /// Full retailer list (used by StoreSelectionView if re-enabled later).
     static let mvpRetailers: [Store] = [
-        Store(name: "Walmart", instacartRetailerId: "walmart"),
-        Store(name: "Target", instacartRetailerId: "target"),
-        Store(name: "Kroger", instacartRetailerId: "kroger"),
+        .walmart,
+        Store(name: "Target",           instacartRetailerId: "target"),
+        Store(name: "Kroger",           instacartRetailerId: "kroger"),
         Store(name: "Whole Foods Market", instacartRetailerId: "whole-foods"),
-        Store(name: "Costco", instacartRetailerId: "costco"),
-        Store(name: "Safeway", instacartRetailerId: "safeway"),
+        Store(name: "Costco",           instacartRetailerId: "costco"),
+        Store(name: "Safeway",          instacartRetailerId: "safeway"),
     ]
 }

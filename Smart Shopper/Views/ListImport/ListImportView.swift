@@ -38,9 +38,9 @@ struct ListImportView: View {
     // Error banner
     @State private var showingError    = false
 
-    // Store selection navigation
-    @State private var showStoreSelection  = false
-    @State private var activeGroceryList   = GroceryList()
+    // Walmart navigation (skips StoreSelectionView)
+    @State private var showWalmartCart    = false
+    @State private var activeGroceryList  = GroceryList()
 
     // MARK: - Body
 
@@ -105,9 +105,9 @@ struct ListImportView: View {
             .onChange(of: viewModel.errorMessage) { _, msg in
                 showingError = msg != nil
             }
-            // Phase 2 navigation
-            .navigationDestination(isPresented: $showStoreSelection) {
-                StoreSelectionView(groceryList: activeGroceryList)
+            // Walmart cart navigation
+            .navigationDestination(isPresented: $showWalmartCart) {
+                CartReviewView(groceryList: activeGroceryList, store: .walmart)
             }
         }
     }
@@ -210,12 +210,12 @@ struct ListImportView: View {
         VStack(spacing: 0) {
             Divider()
             Button {
-                activeGroceryList  = viewModel.buildGroceryList()
-                showStoreSelection = true
+                activeGroceryList = viewModel.buildGroceryList()
+                showWalmartCart   = true
             } label: {
                 HStack {
-                    Image(systemName: "storefront.fill")
-                    Text("Find Stores  (\(viewModel.importedItems.count) items)")
+                    Image(systemName: "cart.fill")
+                    Text("Shop at Walmart  (\(viewModel.importedItems.count) items)")
                         .bold()
                 }
                 .frame(maxWidth: .infinity)

@@ -40,11 +40,20 @@ final class CartReviewViewModel {
     init(groceryList: GroceryList,
          store: Store,
          productService: (any ProductService)? = nil) {
-        self.groceryList    = groceryList
-        self.store          = store
-        // Default: Open Food Facts (no key required).
-        // Pass InstacartService.shared when a token is stored in Keychain.
-        self.productService = productService ?? OpenFoodFactsService.shared
+        self.groceryList = groceryList
+        self.store       = store
+        // Service priority:
+        //  1. Explicitly injected service (tests / previews)
+        //  2. WalmartService when store is Walmart and API key is stored
+        //  3. OpenFoodFactsService — always works, no key required
+        if let injected = productService {
+            self.productService = injected
+        } else if store.instacartRetailerId == "walmart",
+                  WalmartService.shared.hasApiKey() {
+            self.productService = WalmartService.shared
+        } else {
+            self.productService = OpenFoodFactsService.shared
+        }
     }
 
     // MARK: - Search
