@@ -72,7 +72,7 @@ actor WalmartService: ProductService {
 
     // MARK: - Helpers
 
-    func hasApiKey() -> Bool {
+    nonisolated func hasApiKey() -> Bool {
         (try? KeychainService.shared.read(
             key: KeychainService.TokenKey.walmartApiKey
         ))?.isEmpty == false
